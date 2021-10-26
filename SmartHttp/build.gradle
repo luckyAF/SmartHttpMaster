@@ -1,0 +1,61 @@
+import kunminx
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+    id "kotlin-kapt"
+    id "maven-publish"
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'com.github.luckyaf'
+                artifactId = 'SmartHttp'
+                version = 'v1.0.2'
+            }
+        }
+    }
+}
+
+
+android{
+    compileSdk  BuildConfig.compileSdkVersion
+    defaultConfig {
+        minSdk   BuildConfig.minSdkVersion
+        targetSdk  BuildConfig.targetSdkVersion
+        testInstrumentationRunner   BuildConfig.testInstrumentationRunner
+    }
+    buildFeatures {
+        dataBinding =true
+    }
+
+
+    compileOptions {
+        sourceCompatibility  JavaVersion.VERSION_11
+        targetCompatibility  JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+dependencies {
+
+    testImplementation Testing.jUnit
+    androidTestImplementation Testing.androidJunit
+    androidTestImplementation Testing.espresso
+// recyclerView的Databinding套装
+    //api 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.2.0'
+    // api 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.2.0'
+    api AndroidX.appcompat
+    api OkHttp.okhttp
+    api Google.gson
+
+
+}
