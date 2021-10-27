@@ -26,7 +26,7 @@ class DefaultParamsConverter : IParamsConverter {
             mapToJsonObject(value as Map<*, *>?)
         } else if (isBeanType(value)) {
             // 如果这是一个 Bean 参数
-            mapToJsonObject(beanToHashMap(value)))
+            mapToJsonObject(beanToHashMap(value))
         } else {
             // 如果这是一个普通的参数
             value

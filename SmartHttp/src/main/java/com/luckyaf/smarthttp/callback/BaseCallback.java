@@ -1,6 +1,7 @@
 package com.luckyaf.smarthttp.callback;
 
 import com.luckyaf.smarthttp.SmartHttpConfig;
+import com.luckyaf.smarthttp.SmartHttpUtils;
 import com.luckyaf.smarthttp.model.CallProxy;
 import com.luckyaf.smarthttp.request.CommonRequest;
 
@@ -64,15 +65,12 @@ public abstract class BaseCallback implements Callback {
         // 服务器请求超时重试
         if (e instanceof SocketTimeoutException && mRetryCount < SmartHttpConfig.Companion.getRetryCount()) {
             // 设置延迟 N 秒后重试该请求
-            EasyUtils.postDelayed(() -> {
-
+            SmartHttpUtils.postDelayed(() -> {
                 mRetryCount++;
                 Call newCall = call.clone();
                 mCall.setCall(newCall);
                 newCall.enqueue(BaseCallback.this);
-                EasyLog.print("请求超时，正在延迟重试，重试次数：" + mRetryCount + "/" + SmartHttpConfig.Companion.getRetryCount());
-
-            }, EasyConfig.getInstance().getRetryTime());
+            }, SmartHttpConfig.Companion.getRetryTime());
 
             return;
         }
